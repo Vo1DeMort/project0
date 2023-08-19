@@ -1,0 +1,21 @@
+{% include 'base.html' %}
+{% block content %}
+
+  <div class="col-md-6 offset-md-3">
+    <h1>Login</h1>
+    <br/>
+    <form method="POST" action="{% url 'login' %}">
+
+	    {{ form.as_p }}
+
+	    {% csrf_token %}
+
+      <br/>
+      <button type="submit" class="btn btn-secondary">Submit</button>
+      
+    </form>
+      <br/>
+      <p>If you haven't register <a href ='{% url 'register' %}'>clicke here</a></p>
+  </div>
+
+{% endblock %}

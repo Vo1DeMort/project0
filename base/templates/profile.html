@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+  {% if profile %}
+  {# profile info #}
+  <div class="media">
+    <div class="col-1">
+      {% if profile.profile_pic %}
+      <img  class="img-fluid"  src="{{ profile.profile_pic.url }}" width=150 height=150 class="rounded-circle" alt="{{ profile.user.username }}">
+      {% else %}
+      <img src="{% static 'images/default_profile_pic.png' %}" width=50 height=50 class="rounded-circle" alt="{{ profile.user.username }}">	
+      {% endif %}
+    </div>
+    <div class="media-body">
+      <h5 class="mt-0">{{profile.user.username}}</h5>
+      <h5 class="mt-0">Bio :{{profile.bio}}</h5>
+      <h5 class="mt-0">Links :{{profile.link}}</h5>
+      <h5 class="mt-0">Joined :{{profile.joined}}</h5>
+      <p><a href="#">Edit Profile info</a></p>
+    </div>
+  </div>
+  {% endif %}
+
+  </br>
+  </br>
+   
+  {# posts of the user #}
+  {% for post in posts %}
+    <div class="media">
+      <img class="mr-3" src=".../64x64" alt="Generic placeholder image">
+      <div class="media-body">
+        <h5 class="mt-0">writer: created</h5>
+        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+        <p>
+        {no of likes} likes            {no of comments}  Comments
+        </p>
+        <p>
+          <a href ='#' >like </a>  <a href='#'>Comment</a>
+        </p>
+      </div>
+    </div>
+  {% endfor %}
+
+{% endblock %}
