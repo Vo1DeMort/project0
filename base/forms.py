@@ -33,3 +33,16 @@ class RegisterForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+# to edit the user profile info
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_pic','bio','link']
+
+
+# to make a post
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['story','pictures']

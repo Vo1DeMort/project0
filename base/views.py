@@ -4,6 +4,7 @@ from django.contrib import messages
 from . forms import RegisterForm, LoginForm
 from . models import Profile
 
+# i am gonna show the posts of the followed users here
 def home(request):
     if request.user.is_authenticated:
         return render(request,'home.html')
@@ -22,6 +23,8 @@ How do i solve this ??
 logic is working expected ,except that underscored thing
 
 !! dear god i need a rubber duck
+
+i could use a message to tell registration fialed and why or success ,with django message
 '''
 def register(request):
     if request.method == 'POST':
@@ -79,7 +82,6 @@ def login_user(request):
     return render(request, 'login.html', {'form': form})
 
 
-
 def logout_user(request):
 	logout(request)
 	messages.success(request, ("logout success"))
@@ -96,5 +98,16 @@ def profile(request):
 
     return render (request,'profile.html',{'profile':profile,'posts':posts})
 
+def make_post(request):
+    pass
+
+def edit_profile(request):
+    pass
+
+def send_message(request):
+    pass
+
+def start_group_chat(request):
+    pass
 
 

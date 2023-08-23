@@ -1,0 +1,28 @@
+full duplex communication
+  both the client and the server can send messages to each other at any time
+  without waiting for a request or response.
+
+persistent connection
+
+handshake
+  websocket connection starts with an http handshake ,tell the server to upgrade
+  to websocket ,if the server support ,it replies with 101 status code
+
+frames 
+  data sent over websocket is divided into frames(text or binary)
+
+realtime update 
+  suitable chatsystem, live notifications
+
+Broadcasting: WebSockets can support broadcasting, where a single message sent by 
+a client can be broadcasted to multiple clients simultaneously. This is useful for scenarios where updates need to be sent to multiple clients at once.
+
+consumer : a python class that handles different types of asynchronous events,
+including websocket connection ,http request and more
+Consumers are used to manage interactions with clients over different protocols
+
+Routes in Django Channels define how different types of asynchronous events are mapped to specific consumers. They are responsible for routing incoming 
+connections and events to the appropriate consumer.
+
+AJAX (Asynchronous JavaScript and XML):
+AJAX is a technique used in web development to update parts of a web page without requiring a full page reload.
