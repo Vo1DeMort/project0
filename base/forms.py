@@ -3,6 +3,11 @@ from django.forms import ModelForm
 from django import forms
 from . models import Profile ,Post ,Comment
 
+'''
+Django crispy forms help in rending a prettier-looking form element without working on the HTML or CSS elements.
+https://www.programink.com/django-tutorial/django-crispy-forms.html
+'''
+
 class RegisterForm(forms.ModelForm):
     # setting password
     password = forms.CharField(label='Password',widget=forms.PasswordInput)

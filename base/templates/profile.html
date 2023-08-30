@@ -18,6 +18,7 @@
       <h5 class="mt-0">Bio :{{profile.bio}}</h5>
       <h5 class="mt-0">Links :{{profile.link}}</h5>
       <h5 class="mt-0">Joined :{{profile.joined}}</h5>
+      <h5 class="mt-0">Followed by:{{profile.followed_by.count}} people</h5>
       <!--if the request user is not the owner of the profile ,show follow bottom-->
       <a href="#">Edit Profile info</a>
       </br>
@@ -28,9 +29,23 @@
 
   </br>
   </br>
-   
   {# posts of the user #}
   {% for post in posts %}
-  {% endfor %}
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
 
+              <h5 class="card-title">{{post.owner}}</h5>
+              <h5 class="card-title">Created at : {{post.created}}</h5>
+              <p class="card-text">{{post.story}}</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  
 {% endblock %}

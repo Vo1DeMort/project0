@@ -12,7 +12,12 @@ urlpatterns = [
     path('logout/',views.logout_user,name='logout'),
 
     path('profile/',views.profile,name='profile'),
+    path('post/<int:post_id>/like_comment',views.like_comment,name='post_like'),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+'''
+regex in url is better , more efficient ! gott learn
+'''

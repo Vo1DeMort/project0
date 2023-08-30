@@ -1,16 +1,73 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from . forms import RegisterForm, LoginForm
-from . models import Profile
+from django.contrib.auth.decorators import login_required
+from . forms import RegisterForm, LoginForm, PostForm
+from . models import Profile,  Post, Comment
 
 # i am gonna show the posts of the followed users here
 def home(request):
     if request.user.is_authenticated:
-        return render(request,'home.html')
+    # import the posts of follow users ,then render
+        # fitst find out the users that the requested user follows
+        # and then retrieves the posts of those users
+
+        # retrieve the profile of requested user
+        profile = request.user.profile
+        # retrieve the profiles that the login user follows
+        followed_profiles = profile.follow.all()
+        # their posts
+        posts = Post.objects.filter(owner__in=followed_profiles)
+
+        # handle the post formif request.method == 'POST':
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                # Process the form data and create a new post
+                story = form.cleaned_data['story']
+                pictures = form.cleaned_data['pictures']
+                new_post = Post.objects.create(
+                    owner = profile,
+                    story = story,
+                    pictures = pictures
+                )
+                return redirect('home')
+        else:
+            form = PostForm()
+
+        return render(request,'home.html',{'posts':posts,'form':form})
     else:
         return redirect('login')
 
+
+'''
+working properly, sort of ajex things will improve user experience , need to learn django channel
+need to study these codes
+'''
+@login_required
+def like_comment(request,post_id):
+    # post like thing
+    post = Post.objects.get(id=post_id)
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+
+    # comment thing
+    '''
+    this might stops working, coz i am gonna change the comment and post models
+    '''
+    if request.method == 'POST':
+        comment = request.POST.get('comment')
+        if comment:
+            new_comment = Comment.objects.create(post=post, writer=request.user,comment=comment)
+    comments = Comment.objects.filter(post=post).order_by('-created')
+
+    return redirect('home') 
+
+        
+
+    
 
 
 '''
@@ -98,10 +155,9 @@ def profile(request):
 
     return render (request,'profile.html',{'profile':profile,'posts':posts})
 
-def make_post(request):
-    pass
 
 def edit_profile(request):
+    # make a form and handle from this view
     pass
 
 def send_message(request):
