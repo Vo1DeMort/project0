@@ -1,39 +1,39 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-'''
-i am gonna use this app to write message thing and notification ,coz they required async and django channels
-'''
 
- # need to user django channel
- # i should make a different app for the message and notifications features which require djagno channel and asgi
-class Message (models.Model):
-    # use some relative names coz two fileds are clashing
-    sender = models.ForeignKey(User,related_name='message_sender',on_delete=models.CASCADE)
-    receiver = models.ForeignKey(User,related_name='message_receiver',on_delete=models.CASCADE)
-    message = models.TextField(max_length=300)
-    created = models.DateTimeField(auto_now_add=True)
+class Room(models.Model):
+    participants = models.ManyToManyField(User)
+    created = models.DateField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-updated']
 
     def __str__(self):
-        return f'Message from {self.sender.username} to {self.receiver.username} at {self.created}'
+        participant_usernames = ','.join([user.username for user in self.participants.all()])
+        return f'Participants: {participant_usernames}'
 
-class GroupMessage(models.Model):
-    name = models.CharField(max_length=100)
-    owner = models.ForeignKey(User,related_name='chat_owner',on_delete=models.CASCADE)
-    participants = models.ManyToManyField(User,related_name='chat_participants')
-    message = models.TextField(max_length=300)
+
+
+def validate_msg_length(value):
+    if len(value) > 300:
+        raise ValidationError("Message length should not exceed 300 characters.")
+
+
+
+class Message(models.Model):
+    sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name='message_sender')
+    # after the migration ,null and blank 'd be set back to flase
+    room = models.ForeignKey(Room,on_delete=models.CASCADE,related_name='message_room',null=True,blank=True)
+    # a list of validator functions can be passed into the validator model filed
+    message = models.TextField(max_length=300,default=None,validators=[validate_msg_length])
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-updated']
+        ordering = ['-created']
 
     def __str__(self):
-        return (
-            f'{self.name} '
-            f'by {self.owner.username}'
-        )
+        return f'send by {self.sender.username}'
+

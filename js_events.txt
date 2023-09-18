@@ -1,0 +1,22 @@
+mouse events  
+  onclick
+  oncontextmenu
+  onmouseover
+  onmouseout
+
+keyboard events
+  onekeydown
+  onekeyup
+  onkeypress
+
+form events
+  onfocus
+  onblur
+  onchange
+  onsubmit
+
+documnet/ window events
+  onload
+  onunload
+  onresize
+

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% if rooms_dudes %}
+    <h4>show rooms</h4>
+
+    {% for room,other_dude in rooms_dudes %}
+      <a href="{% url 'chat_room' room.id %}">chat with {{other_dude.username}}</a>
+    {% endfor %}
+
+  {% else %}
+    <h4>there are no chat rooms yet </h4>
+  {% endif %}
+
+{% endblock %}
